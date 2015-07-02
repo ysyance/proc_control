@@ -4,6 +4,12 @@
 #include <wx/wx.h>
 
 
+#define wxID_OK1 	10001
+#define wxID_OK2 	10002
+#define wxID_CAN 	10003
+#define wxID_RUN 	10004
+#define wxID_PAU 	10005
+
 /*
  * MainFrame class declaration
  */
@@ -20,8 +26,10 @@ public:
 	bool Create();
 	/* PID  parameters */
 	float m_Kp; 		/* proportion */
-	float m_Ki; 		/* integration */
-	float m_Kd; 		/* differential */
+	float m_Ti; 		/* integration */
+	float m_Td; 		/* differential */
+	/* Control Period */
+	float m_CtlPeriod;
 	/* Gain factor  */
 	float m_K;
 	/* Setting Value */
@@ -31,7 +39,7 @@ public:
 	/* Time delay */
 	float m_delay;
 	/* Discrete period */
-	float m_Period;
+	float m_DisPeriod;
 	/* Plant Gain */
 	float m_Kg;
 	/* Controller output limit */
@@ -41,6 +49,9 @@ public:
 
 
 };
+
+
+
 
 
 #endif

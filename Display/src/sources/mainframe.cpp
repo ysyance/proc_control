@@ -29,6 +29,7 @@ MainFrame::MainFrame(const wxString& title)
 {
 	this->Init();
 	this->Create();
+	this->updateDataFromVariableToCtrl();
 }
 
 /*
@@ -75,17 +76,17 @@ bool MainFrame::Create()
 //	SetSizer(PidSettingGridSizer);
 
 	wxStaticText* staticTextKp = new wxStaticText(this, wxID_ANY, wxT("比例Kp"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-	wxTextCtrl* textCtlKp = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	wxTextCtrl* textCtlKp = new wxTextCtrl(this, wxID_PIDKP, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	wxStaticText* staticTextTi = new wxStaticText(this, wxID_ANY, wxT("积分Ti"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-	wxTextCtrl* textCtlTi = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	wxTextCtrl* textCtlTi = new wxTextCtrl(this, wxID_PIDKI, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	wxStaticText* staticTextTd = new wxStaticText(this, wxID_ANY, wxT("微分Td"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-	wxTextCtrl* textCtlTd = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	wxTextCtrl* textCtlTd = new wxTextCtrl(this, wxID_PIDKD, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	wxStaticText* staticTextT = new wxStaticText(this, wxID_ANY, wxT("控制周期T"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-	wxTextCtrl* textCtlT = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	wxTextCtrl* textCtlT = new wxTextCtrl(this, wxID_PIDT, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	wxStaticText* staticTextK = new wxStaticText(this, wxID_ANY, wxT("增益系数K"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-	wxTextCtrl* textCtlK = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	wxTextCtrl* textCtlK = new wxTextCtrl(this, wxID_PIDK, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	wxStaticText* staticTextSV = new wxStaticText(this, wxID_ANY, wxT("给定值SV"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-	wxTextCtrl* textCtlSV = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	wxTextCtrl* textCtlSV = new wxTextCtrl(this, wxID_PIDSV, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	
 	PidSettingGridSizer->Add(staticTextKp, 0, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL | wxALL, 5);
 	PidSettingGridSizer->Add(textCtlKp, 0, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL | wxALL, 5);
@@ -109,13 +110,13 @@ bool MainFrame::Create()
 //	SetSizer(ObjSettingGridSizer);
 
 	wxStaticText* staticTextTp = new wxStaticText(this, wxID_ANY, wxT("时间常数Tp"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-	wxTextCtrl* textCtlTp = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	wxTextCtrl* textCtlTp = new wxTextCtrl(this, wxID_OBJTP, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	wxStaticText* staticTextL = new wxStaticText(this, wxID_ANY, wxT("延迟L"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-	wxTextCtrl* textCtlL = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	wxTextCtrl* textCtlL = new wxTextCtrl(this, wxID_OBJL, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	wxStaticText* staticTextTs = new wxStaticText(this, wxID_ANY, wxT("离散周期Ts"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-	wxTextCtrl* textCtlTs = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	wxTextCtrl* textCtlTs = new wxTextCtrl(this, wxID_OBJTS, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	wxStaticText* staticTextKg = new wxStaticText(this, wxID_ANY, wxT("增益Kp"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-	wxTextCtrl* textCtlKg = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	wxTextCtrl* textCtlKg = new wxTextCtrl(this, wxID_OBJKG, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	
 	ObjSettingGridSizer->Add(staticTextTp, 0, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL | wxALL, 5);
 	ObjSettingGridSizer->Add(textCtlTp, 0, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL | wxALL, 5);
@@ -141,9 +142,9 @@ bool MainFrame::Create()
 //	SetSizer(LimitGridSizer);
 
 	wxStaticText* staticTextUp = new wxStaticText(subPanel1, wxID_ANY, wxT("输出上限MH"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-	wxTextCtrl* textCtlMH = new wxTextCtrl(subPanel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	wxTextCtrl* textCtlMH = new wxTextCtrl(subPanel1, wxID_LIMITMH, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	wxStaticText* staticTextLow = new wxStaticText(subPanel1, wxID_ANY, wxT("输出下限ML"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-	wxTextCtrl* textCtlML = new wxTextCtrl(subPanel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	wxTextCtrl* textCtlML = new wxTextCtrl(subPanel1, wxID_LIMITML, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 
 	LimitGridSizer->Add(staticTextUp, 0, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL | wxALL, 5);
 	LimitGridSizer->Add(textCtlMH, 0, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL | wxALL, 5);
@@ -163,7 +164,7 @@ bool MainFrame::Create()
 	StatusBoxSizer1->Add(radioManual, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
 	StatusBoxSizer1->Add(radioAuto, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
 
-	wxTextCtrl* textCtlManualVal = new wxTextCtrl(subPanel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	wxTextCtrl* textCtlManualVal = new wxTextCtrl(subPanel1, wxID_MANVAL, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	wxButton* buttonOK1 = new wxButton(subPanel1, wxID_OK1, wxT("确定"), wxDefaultPosition,wxDefaultSize);
 	wxBoxSizer* StatusBoxSizer2 = new wxBoxSizer(wxVERTICAL);
 	StatusBoxSizer2->Add(textCtlManualVal, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
@@ -229,4 +230,87 @@ bool MainFrame::Create()
 
 
 	return true;
+}
+
+
+/*
+ * @name : updateDataFromVariableToCtrl
+ * @para : none
+ * @berif: refresh data from member variables to controls
+ */	
+
+void MainFrame::updateDataFromVariableToCtrl()
+{
+	wxString str;		/* temp variable */
+
+	/* refresh PID parameters from member variables to controls */
+	wxTextCtrl* textCtlKp = (wxTextCtrl*)FindWindow(wxID_PIDKP);
+	textCtlKp->SetValue(str.Format("%f",m_Kp));
+	wxTextCtrl* textCtlTi = (wxTextCtrl*)FindWindow(wxID_PIDKI);
+	textCtlTi->SetValue(str.Format("%f",m_Ti));
+	wxTextCtrl* textCtlTd = (wxTextCtrl*)FindWindow(wxID_PIDKD);
+	textCtlTd->SetValue(str.Format("%f",m_Td));
+	wxTextCtrl* textCtlT = (wxTextCtrl*)FindWindow(wxID_PIDT);
+	textCtlT->SetValue(str.Format("%f",m_CtlPeriod));
+	wxTextCtrl* textCtlK = (wxTextCtrl*)FindWindow(wxID_PIDK);
+	textCtlK->SetValue(str.Format("%f",m_K));
+	wxTextCtrl* textCtlSV = (wxTextCtrl*)FindWindow(wxID_PIDSV);
+	textCtlSV->SetValue(str.Format("%f",m_SV));
+
+	/* refresh object parameters from member variables to controls */
+	wxTextCtrl* textCtlTp = (wxTextCtrl*)FindWindow(wxID_OBJTP);
+	textCtlTp->SetValue(str.Format("%f",m_Tp));
+	wxTextCtrl* textCtlL = (wxTextCtrl*)FindWindow(wxID_OBJL);
+	textCtlL->SetValue(str.Format("%f",m_delay));
+	wxTextCtrl* textCtlTs = (wxTextCtrl*)FindWindow(wxID_OBJTS);
+	textCtlTs->SetValue(str.Format("%f",m_DisPeriod));
+	wxTextCtrl* textCtlKg = (wxTextCtrl*)FindWindow(wxID_OBJKG);
+	textCtlKg->SetValue(str.Format("%f",m_Kg));
+
+	/* refresh limit parameters from member variables to controls */
+	wxTextCtrl* textCtlMH = (wxTextCtrl*)FindWindow(wxID_LIMITMH);
+	textCtlMH->SetValue(str.Format("%f",m_MH));
+	wxTextCtrl* textCtlML = (wxTextCtrl*)FindWindow(wxID_LIMITML);
+	textCtlML->SetValue(str.Format("%f",m_ML));
+
+
+}
+
+/*
+ * @name : updateDataFromCtlToVariable
+ * @para : none
+ * @berif: refresh data from controls to member variables
+ */
+
+void MainFrame::updateDataFromCtlToVariable()
+{
+	/* refresh PID parameters from controls to member variables */
+	wxTextCtrl* textCtlKp = (wxTextCtrl*)FindWindow(wxID_PIDKP);
+	m_Kp = wxAtof(textCtlKp->GetValue());
+	wxTextCtrl* textCtlTi = (wxTextCtrl*)FindWindow(wxID_PIDKI);
+	m_Ti = wxAtof(textCtlTi->GetValue());
+	wxTextCtrl* textCtlTd = (wxTextCtrl*)FindWindow(wxID_PIDKD);
+	m_Td = wxAtof(textCtlTd->GetValue());
+	wxTextCtrl* textCtlT = (wxTextCtrl*)FindWindow(wxID_PIDT);
+	m_CtlPeriod = wxAtof(textCtlT->SetValue());
+	wxTextCtrl* textCtlK = (wxTextCtrl*)FindWindow(wxID_PIDK);
+	m_K = wxAtof(textCtlK->SetValue());
+	wxTextCtrl* textCtlSV = (wxTextCtrl*)FindWindow(wxID_PIDSV);
+	m_SV = wxAtof(textCtlSV->GetValue());
+
+	/* refresh object parameters from controls to member variables */
+	wxTextCtrl* textCtlTp = (wxTextCtrl*)FindWindow(wxID_OBJTP);
+	textCtlTp->SetValue(str.Format("%f",m_Tp));
+	wxTextCtrl* textCtlL = (wxTextCtrl*)FindWindow(wxID_OBJL);
+	textCtlL->SetValue(str.Format("%f",m_delay));
+	wxTextCtrl* textCtlTs = (wxTextCtrl*)FindWindow(wxID_OBJTS);
+	textCtlTs->SetValue(str.Format("%f",m_DisPeriod));
+	wxTextCtrl* textCtlKg = (wxTextCtrl*)FindWindow(wxID_OBJKG);
+	textCtlKg->SetValue(str.Format("%f",m_Kg));
+
+	/* refresh limit parameters from controls to member variables */
+	wxTextCtrl* textCtlMH = (wxTextCtrl*)FindWindow(wxID_LIMITMH);
+	textCtlMH->SetValue(str.Format("%f",m_MH));
+	wxTextCtrl* textCtlML = (wxTextCtrl*)FindWindow(wxID_LIMITML);
+	textCtlML->SetValue(str.Format("%f",m_ML));
 }
